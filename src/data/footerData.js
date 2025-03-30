@@ -34,27 +34,27 @@ export const footerData = {
   quickLinks: [
     {
       id: 1,
-      name: "Trang chủ",
+      name: "Home",
       url: "#home",
     },
     {
       id: 2,
-      name: "Giới thiệu",
+      name: "About",
       url: "#about",
     },
     {
       id: 3,
-      name: "Dịch vụ",
+      name: "Services",
       url: "#services",
     },
     {
       id: 4,
-      name: "Dự án",
+      name: "Portfolio",
       url: "#portfolio",
     },
     {
       id: 5,
-      name: "Liên hệ",
+      name: "Contact",
       url: "#contact",
     },
   ],

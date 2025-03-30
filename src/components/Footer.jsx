@@ -26,12 +26,12 @@ const Footer = () => {
       .then(async (response) => {
         const data = await response.json();
         if (data.success) {
-          // Thành công
+          // Success
           setEmail("");
           setSubmitSuccess(true);
           setTimeout(() => setSubmitSuccess(false), 5000);
         } else {
-          // Lỗi
+          // Error
           setSubmitError(true);
           setTimeout(() => setSubmitError(false), 5000);
         }
@@ -136,7 +136,7 @@ const Footer = () => {
             viewport={{ once: true }}
           >
             <h3 className="text-lg font-semibold mb-4 text-white">
-              Liên kết nhanh
+              Quick Links
             </h3>
             <ul className="space-y-2">
               {footerData.quickLinks.map((link) => (
@@ -175,10 +175,10 @@ const Footer = () => {
             viewport={{ once: true }}
           >
             <h3 className="text-lg font-semibold mb-4 text-white">
-              Nhận thông tin mới
+              Stay Updated
             </h3>
             <p className="text-gray-300 mb-4">
-              Đăng ký nhận bản tin để cập nhật thông tin mới nhất
+              Subscribe to my newsletter for the latest updates
             </p>
             <form
               ref={formRef}
@@ -195,7 +195,7 @@ const Footer = () => {
               <input
                 type="hidden"
                 name="subject"
-                value="Đăng ký nhận bản tin"
+                value="Newsletter Subscription"
               />
               <input
                 type="hidden"
@@ -217,7 +217,7 @@ const Footer = () => {
                 <input
                   type="email"
                   name="email"
-                  placeholder="Địa chỉ email của bạn"
+                  placeholder="Your email address"
                   className="flex-grow px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg sm:rounded-l-lg sm:rounded-r-none focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-white placeholder-gray-400"
                   required
                   value={email}
@@ -254,10 +254,10 @@ const Footer = () => {
                           d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                         ></path>
                       </svg>
-                      <span>Đang gửi...</span>
+                      <span>Sending...</span>
                     </div>
                   ) : (
-                    "Đăng ký"
+                    "Subscribe"
                   )}
                 </button>
               </div>
@@ -265,14 +265,15 @@ const Footer = () => {
               {/* Success message */}
               {submitSuccess && (
                 <div className="p-3 bg-green-500/20 border border-green-500/30 rounded-lg text-green-400 text-sm">
-                  Đăng ký thành công! Cảm ơn bạn đã đăng ký nhận bản tin.
+                  Subscription successful! Thank you for subscribing to our
+                  newsletter.
                 </div>
               )}
 
               {/* Error message */}
               {submitError && (
                 <div className="p-3 bg-red-500/20 border border-red-500/30 rounded-lg text-red-400 text-sm">
-                  Có lỗi xảy ra. Vui lòng thử lại sau.
+                  An error occurred. Please try again later.
                 </div>
               )}
             </form>
@@ -284,7 +285,7 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm">{footerData.copyright}</p>
             <p className="text-gray-400 text-sm mt-4 md:mt-0">
-              Thiết kế với <span className="text-green-500">❤</span> bởi Lucius
+              Designed with <span className="text-green-500">❤</span> by Lucius
             </p>
           </div>
         </div>

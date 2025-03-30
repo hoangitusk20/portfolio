@@ -10,10 +10,6 @@ const Contact = () => {
     subject: "",
     message: "",
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
-  const [submitError, setSubmitError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -25,9 +21,6 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitSuccess(false);
-    setSubmitError(false);
 
     const formElement = formRef.current;
     const formData = new FormData(formElement);
@@ -35,34 +28,14 @@ const Contact = () => {
     fetch("https://api.web3forms.com/submit", {
       method: "POST",
       body: formData,
-    })
-      .then(async (response) => {
-        const data = await response.json();
-        if (data.success) {
-          // Thành công
-          setFormData({
-            name: "",
-            email: "",
-            subject: "",
-            message: "",
-          });
-          setSubmitSuccess(true);
-          setTimeout(() => setSubmitSuccess(false), 5000);
-        } else {
-          // Lỗi
-          setSubmitError(true);
-          setErrorMessage("Có lỗi xảy ra khi gửi form. Vui lòng thử lại sau.");
-          setTimeout(() => setSubmitError(false), 5000);
-        }
-        setIsSubmitting(false);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        setSubmitError(true);
-        setErrorMessage("Có lỗi xảy ra khi gửi form. Vui lòng thử lại sau.");
-        setTimeout(() => setSubmitError(false), 5000);
-        setIsSubmitting(false);
-      });
+    });
+
+    setFormData({
+      name: "",
+      email: "",
+      subject: "",
+      message: "",
+    });
   };
 
   const MotionHeading = motion.h2;
@@ -275,7 +248,7 @@ const Contact = () => {
                 <input
                   type="hidden"
                   name="subject"
-                  value="Liên hệ mới từ Portfolio"
+                  value="New Contact from Portfolio"
                 />
                 <input
                   type="hidden"
@@ -300,13 +273,13 @@ const Contact = () => {
                       htmlFor="name"
                       className="block text-sm font-medium text-gray-300"
                     >
-                      Họ tên<span className="text-green-500 ml-1">*</span>
+                      Full Name<span className="text-green-500 ml-1">*</span>
                     </label>
                     <input
                       type="text"
                       id="name"
                       name="name"
-                      placeholder="Nhập họ tên của bạn"
+                      placeholder="Enter your name"
                       required
                       value={formData.name}
                       onChange={handleChange}
@@ -325,7 +298,7 @@ const Contact = () => {
                       type="email"
                       id="email"
                       name="email"
-                      placeholder="Nhập địa chỉ email của bạn"
+                      placeholder="Enter your email address"
                       required
                       value={formData.email}
                       onChange={handleChange}
@@ -339,13 +312,13 @@ const Contact = () => {
                     htmlFor="subject"
                     className="block text-sm font-medium text-gray-300"
                   >
-                    Tiêu đề<span className="text-green-500 ml-1">*</span>
+                    Subject<span className="text-green-500 ml-1">*</span>
                   </label>
                   <input
                     type="text"
                     id="subject"
                     name="subject"
-                    placeholder="Nhập tiêu đề tin nhắn"
+                    placeholder="Enter message subject"
                     required
                     value={formData.subject}
                     onChange={handleChange}
@@ -358,12 +331,12 @@ const Contact = () => {
                     htmlFor="message"
                     className="block text-sm font-medium text-gray-300"
                   >
-                    Nội dung<span className="text-green-500 ml-1">*</span>
+                    Message<span className="text-green-500 ml-1">*</span>
                   </label>
                   <textarea
                     id="message"
                     name="message"
-                    placeholder="Nhập nội dung tin nhắn"
+                    placeholder="Enter your message"
                     required
                     value={formData.message}
                     onChange={handleChange}
@@ -375,56 +348,10 @@ const Contact = () => {
                 <div className="pt-2">
                   <button
                     type="submit"
-                    disabled={isSubmitting}
-                    className={`inline-flex items-center justify-center px-6 py-3 rounded-lg text-white font-medium transition-colors ${
-                      isSubmitting
-                        ? "bg-gray-600 cursor-not-allowed"
-                        : "bg-green-600 hover:bg-green-700"
-                    }`}
+                    className="inline-flex items-center justify-center px-6 py-3 rounded-lg text-white font-medium transition-colors bg-green-600 hover:bg-green-700"
                   >
-                    {isSubmitting ? (
-                      <>
-                        <svg
-                          className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                        >
-                          <circle
-                            className="opacity-25"
-                            cx="12"
-                            cy="12"
-                            r="10"
-                            stroke="currentColor"
-                            strokeWidth="4"
-                          ></circle>
-                          <path
-                            className="opacity-75"
-                            fill="currentColor"
-                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                          ></path>
-                        </svg>
-                        Đang gửi...
-                      </>
-                    ) : (
-                      "Gửi tin nhắn"
-                    )}
+                    Send Message
                   </button>
-
-                  {/* Success message */}
-                  {submitSuccess && (
-                    <div className="mt-4 p-3 bg-green-500/20 border border-green-500/30 rounded-lg text-green-400">
-                      Tin nhắn của bạn đã được gửi thành công. Tôi sẽ phản hồi
-                      sớm nhất có thể.
-                    </div>
-                  )}
-
-                  {/* Error message */}
-                  {submitError && (
-                    <div className="mt-4 p-3 bg-red-500/20 border border-red-500/30 rounded-lg text-red-400">
-                      {errorMessage}
-                    </div>
-                  )}
                 </div>
               </form>
             </div>
