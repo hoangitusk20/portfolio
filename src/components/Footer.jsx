@@ -285,7 +285,8 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm">{footerData.copyright}</p>
             <p className="text-gray-400 text-sm mt-4 md:mt-0">
-              Designed with <span className="text-green-500">❤</span> by Lucius
+              Designed with <span className="text-green-500">❤</span> by Hoang
+              Le
             </p>
           </div>
         </div>

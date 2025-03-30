@@ -1,7 +1,7 @@
 import { contactData } from "./contactData";
 
 export const footerData = {
-  logo: "Lucius",
+  logo: "Hoang Le",
   tagline: "Creating digital experiences that inspire.",
   copyright: `© ${new Date().getFullYear()} Hoang Le. All rights reserved.`,
   newsletterEmail: contactData.email,
