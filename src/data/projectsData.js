@@ -27,8 +27,8 @@ export const projectsData = [
       "A sleek and user-friendly portfolio website that showcases my full profile. Built with  React.js, and Tailwind CSS, it also integrates EmailJS, allowing visitors to submit a contact form that sends messages directly to my email.",
     image: "/project0.png",
     tags: ["JavaScript", "Tailwind CSS", "React"],
-    liveLink: "https://project4.example.com",
-    githubLink: "https://github.com/username/project4",
+    liveLink: "https://portfolio-tau-seven-53.vercel.app/",
+    githubLink: "https://github.com/hoangitusk20/portfolio",
   },
   {
     id: 3,
