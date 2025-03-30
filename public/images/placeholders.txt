@@ -1,0 +1,9 @@
+Please replace this text file with actual project images.
+
+For a real implementation, you would need to place image files here:
+- project1.jpg (Food Ordering Website)
+- project2.jpg (AI Application)
+- project3.jpg (E-commerce Platform)
+- project4.jpg (Social Network App)
+
+The images should be appropriate for the project types described in the projectsData.js file. 

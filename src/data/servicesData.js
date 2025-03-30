@@ -1,0 +1,47 @@
+export const servicesData = [
+  {
+    id: 1,
+    title: "AI-Integrated",
+    description:
+      "Developing and integrating advanced artificial intelligence solutions into applications and software systems for enhanced performance and functionality.",
+    icon: "ai",
+    tools: [
+      "TensorFlow",
+      "PyTorch",
+      "Kaggle",
+      "Scikit-learn",
+      // "OpenCV",
+      // "Keras",
+      "NLP",
+      "Computer Vision",
+      "Pandas",
+      "NumPy",
+      "Machine Learning",
+      "Deep Learning",
+      // "GPT Integration",
+    ],
+  },
+  {
+    id: 2,
+    title: "Web Development",
+    description:
+      "Designing and developing modern, highly interactive websites with optimized user experiences and responsive interfaces.",
+    icon: "web",
+    tools: [
+      "React",
+      // "Vue.js",
+      "HTML5",
+      "CSS",
+      "JavaScript",
+      // "TypeScript",
+      "Node.js",
+      "Express",
+      "MongoDB",
+      // "Firebase",
+      "Tailwind CSS",
+      "Bootstrap",
+      "Responsive Design",
+      "API Integration",
+    ],
+  },
+];

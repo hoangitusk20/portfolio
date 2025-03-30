@@ -1,0 +1,1 @@
+Đây là tệp tạm thời để giữ chỗ cho hình ảnh avatar. Trong thực tế, bạn cần tải lên một hình ảnh avatar.png vào thư mục này. 
