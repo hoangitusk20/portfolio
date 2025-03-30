@@ -1,7 +1,6 @@
 import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { contactData } from "../data/contactData";
-import emailjs from "@emailjs/browser";
 
 const Contact = () => {
   const formRef = useRef();
@@ -27,41 +26,42 @@ const Contact = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setSubmitError(false);
     setSubmitSuccess(false);
+    setSubmitError(false);
 
-    // Gửi email bằng EmailJS
-    emailjs
-      .sendForm(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        formRef.current,
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-      )
-      .then((result) => {
-        console.log("Email sent successfully:", result.text);
-        setFormData({
-          name: "",
-          email: "",
-          subject: "",
-          message: "",
-        });
+    const formElement = formRef.current;
+    const formData = new FormData(formElement);
+
+    fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: formData,
+    })
+      .then(async (response) => {
+        const data = await response.json();
+        if (data.success) {
+          // Thành công
+          setFormData({
+            name: "",
+            email: "",
+            subject: "",
+            message: "",
+          });
+          setSubmitSuccess(true);
+          setTimeout(() => setSubmitSuccess(false), 5000);
+        } else {
+          // Lỗi
+          setSubmitError(true);
+          setErrorMessage("Có lỗi xảy ra khi gửi form. Vui lòng thử lại sau.");
+          setTimeout(() => setSubmitError(false), 5000);
+        }
         setIsSubmitting(false);
-        setSubmitSuccess(true);
-
-        // Reset success message after 5 seconds
-        setTimeout(() => setSubmitSuccess(false), 5000);
       })
       .catch((error) => {
-        console.error("Failed to send email:", error.text);
-        setIsSubmitting(false);
+        console.error("Error:", error);
         setSubmitError(true);
-        setErrorMessage(
-          "Có lỗi xảy ra khi gửi email. Vui lòng thử lại sau hoặc liên hệ qua phương thức khác."
-        );
-
-        // Reset error message after 5 seconds
+        setErrorMessage("Có lỗi xảy ra khi gửi form. Vui lòng thử lại sau.");
         setTimeout(() => setSubmitError(false), 5000);
+        setIsSubmitting(false);
       });
   };
 
@@ -260,69 +260,117 @@ const Contact = () => {
                 Send me a message
               </h3>
 
-              <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {contactData.formFields.slice(0, 2).map((field) => (
-                    <div key={field.id} className="space-y-2">
-                      <label
-                        htmlFor={field.id}
-                        className="block text-sm font-medium text-gray-300"
-                      >
-                        {field.label}
-                        {field.required && (
-                          <span className="text-green-500 ml-1">*</span>
-                        )}
-                      </label>
-                      <input
-                        type={field.type}
-                        id={field.id}
-                        name={field.id}
-                        placeholder={field.placeholder}
-                        required={field.required}
-                        value={formData[field.id]}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-white placeholder-gray-400 transition-colors"
-                      />
-                    </div>
-                  ))}
-                </div>
+              <form
+                ref={formRef}
+                method="POST"
+                className="space-y-6"
+                onSubmit={handleSubmit}
+              >
+                {/* Web3Forms configuration */}
+                <input
+                  type="hidden"
+                  name="access_key"
+                  value={import.meta.env.VITE_WEB3FORMS_ACCESS_KEY}
+                />
+                <input
+                  type="hidden"
+                  name="subject"
+                  value="Liên hệ mới từ Portfolio"
+                />
+                <input
+                  type="hidden"
+                  name="from_name"
+                  value="Portfolio Contact Form"
+                />
+                <input
+                  type="hidden"
+                  name="redirect"
+                  value={window.location.href}
+                />
+                {/* Spam Protection with Honeypot */}
+                <input
+                  type="checkbox"
+                  name="botcheck"
+                  style={{ display: "none" }}
+                />
 
-                {contactData.formFields.slice(2).map((field) => (
-                  <div key={field.id} className="space-y-2">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
                     <label
-                      htmlFor={field.id}
+                      htmlFor="name"
                       className="block text-sm font-medium text-gray-300"
                     >
-                      {field.label}
-                      {field.required && (
-                        <span className="text-green-500 ml-1">*</span>
-                      )}
+                      Họ tên<span className="text-green-500 ml-1">*</span>
                     </label>
-                    {field.type === "textarea" ? (
-                      <textarea
-                        id={field.id}
-                        name={field.id}
-                        placeholder={field.placeholder}
-                        required={field.required}
-                        value={formData[field.id]}
-                        onChange={handleChange}
-                        rows={5}
-                        className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-white placeholder-gray-400 transition-colors resize-none"
-                      ></textarea>
-                    ) : (
-                      <input
-                        type={field.type}
-                        id={field.id}
-                        name={field.id}
-                        placeholder={field.placeholder}
-                        required={field.required}
-                        value={formData[field.id]}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-white placeholder-gray-400 transition-colors"
-                      />
-                    )}
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      placeholder="Nhập họ tên của bạn"
+                      required
+                      value={formData.name}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-white placeholder-gray-400 transition-colors"
+                    />
                   </div>
-                ))}
+
+                  <div className="space-y-2">
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-medium text-gray-300"
+                    >
+                      Email<span className="text-green-500 ml-1">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      placeholder="Nhập địa chỉ email của bạn"
+                      required
+                      value={formData.email}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-white placeholder-gray-400 transition-colors"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label
+                    htmlFor="subject"
+                    className="block text-sm font-medium text-gray-300"
+                  >
+                    Tiêu đề<span className="text-green-500 ml-1">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="subject"
+                    name="subject"
+                    placeholder="Nhập tiêu đề tin nhắn"
+                    required
+                    value={formData.subject}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-white placeholder-gray-400 transition-colors"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label
+                    htmlFor="message"
+                    className="block text-sm font-medium text-gray-300"
+                  >
+                    Nội dung<span className="text-green-500 ml-1">*</span>
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    placeholder="Nhập nội dung tin nhắn"
+                    required
+                    value={formData.message}
+                    onChange={handleChange}
+                    rows={5}
+                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-white placeholder-gray-400 transition-colors resize-none"
+                  ></textarea>
+                </div>
 
                 <div className="pt-2">
                   <button
@@ -356,18 +404,18 @@ const Contact = () => {
                             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                           ></path>
                         </svg>
-                        Sending...
+                        Đang gửi...
                       </>
                     ) : (
-                      "Send Message"
+                      "Gửi tin nhắn"
                     )}
                   </button>
 
                   {/* Success message */}
                   {submitSuccess && (
                     <div className="mt-4 p-3 bg-green-500/20 border border-green-500/30 rounded-lg text-green-400">
-                      Your message has been sent successfully. I will respond as
-                      soon as possible.
+                      Tin nhắn của bạn đã được gửi thành công. Tôi sẽ phản hồi
+                      sớm nhất có thể.
                     </div>
                   )}
 

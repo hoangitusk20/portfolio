@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { useState, useRef } from "react";
 import { footerData } from "../data/footerData";
-import emailjs from "@emailjs/browser";
 
 const Footer = () => {
   const MotionDiv = motion.div;
@@ -14,37 +13,35 @@ const Footer = () => {
   const handleSubscribe = (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setSubmitError(false);
     setSubmitSuccess(false);
+    setSubmitError(false);
 
-    const templateParams = {
-      email: email,
-      subscription_type: "Newsletter",
-    };
+    const formElement = formRef.current;
+    const formData = new FormData(formElement);
 
-    emailjs
-      .send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        templateParams,
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-      )
-      .then((result) => {
-        console.log("Subscription successful:", result.text);
-        setEmail("");
+    fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: formData,
+    })
+      .then(async (response) => {
+        const data = await response.json();
+        if (data.success) {
+          // Thành công
+          setEmail("");
+          setSubmitSuccess(true);
+          setTimeout(() => setSubmitSuccess(false), 5000);
+        } else {
+          // Lỗi
+          setSubmitError(true);
+          setTimeout(() => setSubmitError(false), 5000);
+        }
         setIsSubmitting(false);
-        setSubmitSuccess(true);
-
-        // Reset success message after 5 seconds
-        setTimeout(() => setSubmitSuccess(false), 5000);
       })
       .catch((error) => {
-        console.error("Failed to subscribe:", error.text);
-        setIsSubmitting(false);
+        console.error("Error:", error);
         setSubmitError(true);
-
-        // Reset error message after 5 seconds
         setTimeout(() => setSubmitError(false), 5000);
+        setIsSubmitting(false);
       });
   };
 
@@ -139,7 +136,7 @@ const Footer = () => {
             viewport={{ once: true }}
           >
             <h3 className="text-lg font-semibold mb-4 text-white">
-              Quick Links
+              Liên kết nhanh
             </h3>
             <ul className="space-y-2">
               {footerData.quickLinks.map((link) => (
@@ -178,21 +175,49 @@ const Footer = () => {
             viewport={{ once: true }}
           >
             <h3 className="text-lg font-semibold mb-4 text-white">
-              Stay Updated
+              Nhận thông tin mới
             </h3>
             <p className="text-gray-300 mb-4">
-              Subscribe to my newsletter for the latest updates
+              Đăng ký nhận bản tin để cập nhật thông tin mới nhất
             </p>
             <form
               ref={formRef}
-              onSubmit={handleSubscribe}
+              method="POST"
               className="flex flex-col gap-3"
+              onSubmit={handleSubscribe}
             >
+              {/* Web3Forms configurations */}
+              <input
+                type="hidden"
+                name="access_key"
+                value={import.meta.env.VITE_WEB3FORMS_ACCESS_KEY}
+              />
+              <input
+                type="hidden"
+                name="subject"
+                value="Đăng ký nhận bản tin"
+              />
+              <input
+                type="hidden"
+                name="from_name"
+                value="Newsletter Subscription"
+              />
+              <input
+                type="hidden"
+                name="redirect"
+                value={window.location.href}
+              />
+              <input
+                type="checkbox"
+                name="botcheck"
+                style={{ display: "none" }}
+              />
+
               <div className="flex flex-col sm:flex-row gap-2">
                 <input
                   type="email"
                   name="email"
-                  placeholder="Your email address"
+                  placeholder="Địa chỉ email của bạn"
                   className="flex-grow px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg sm:rounded-l-lg sm:rounded-r-none focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-white placeholder-gray-400"
                   required
                   value={email}
@@ -229,10 +254,10 @@ const Footer = () => {
                           d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                         ></path>
                       </svg>
-                      <span>Sending...</span>
+                      <span>Đang gửi...</span>
                     </div>
                   ) : (
-                    "Subscribe"
+                    "Đăng ký"
                   )}
                 </button>
               </div>
@@ -240,14 +265,14 @@ const Footer = () => {
               {/* Success message */}
               {submitSuccess && (
                 <div className="p-3 bg-green-500/20 border border-green-500/30 rounded-lg text-green-400 text-sm">
-                  Subscribe successfully!
+                  Đăng ký thành công! Cảm ơn bạn đã đăng ký nhận bản tin.
                 </div>
               )}
 
               {/* Error message */}
               {submitError && (
                 <div className="p-3 bg-red-500/20 border border-red-500/30 rounded-lg text-red-400 text-sm">
-                  An error occurred. Please try again later.
+                  Có lỗi xảy ra. Vui lòng thử lại sau.
                 </div>
               )}
             </form>
@@ -259,8 +284,7 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm">{footerData.copyright}</p>
             <p className="text-gray-400 text-sm mt-4 md:mt-0">
-              Designed with <span className="text-green-500">❤</span> by Hoang
-              Le
+              Thiết kế với <span className="text-green-500">❤</span> bởi Lucius
             </p>
           </div>
         </div>

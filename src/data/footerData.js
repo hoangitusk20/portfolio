@@ -1,57 +1,60 @@
+import { contactData } from "./contactData";
+
 export const footerData = {
-  logo: "Hoang Le",
+  logo: "Lucius",
   tagline: "Creating digital experiences that inspire.",
   copyright: `© ${new Date().getFullYear()} Hoang Le. All rights reserved.`,
+  newsletterEmail: contactData.email,
   socialLinks: [
     {
       id: 1,
       name: "GitHub",
-      icon: "github",
-      url: "https://github.com/luciusmeshach",
+      icon: "GitHub",
+      url: "https://github.com/",
     },
     {
       id: 2,
       name: "LinkedIn",
-      icon: "linkedin",
-      url: "https://linkedin.com/in/luciusmeshach",
+      icon: "LinkedIn",
+      url: "https://linkedin.com/",
     },
     {
       id: 3,
       name: "Twitter",
-      icon: "twitter",
-      url: "https://twitter.com/luciusmeshach",
+      icon: "Twitter",
+      url: "https://twitter.com/",
     },
     {
       id: 4,
       name: "Instagram",
-      icon: "instagram",
-      url: "https://instagram.com/luciusmeshach",
+      icon: "Instagram",
+      url: "https://instagram.com/",
     },
   ],
   quickLinks: [
     {
       id: 1,
-      name: "Home",
-      url: "/",
+      name: "Trang chủ",
+      url: "#home",
     },
     {
       id: 2,
-      name: "About",
+      name: "Giới thiệu",
       url: "#about",
     },
     {
       id: 3,
-      name: "Services",
+      name: "Dịch vụ",
       url: "#services",
     },
     {
       id: 4,
-      name: "Portfolio",
+      name: "Dự án",
       url: "#portfolio",
     },
     {
       id: 5,
-      name: "Contact",
+      name: "Liên hệ",
       url: "#contact",
     },
   ],
