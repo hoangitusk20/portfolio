@@ -159,7 +159,10 @@ const Portfolio = () => {
           <div className="relative">
             <div className="overflow-hidden rounded-lg shadow-xl border-2 border-gray-700">
               {/* Aspect ratio container */}
-              <div style={getImageContainerStyle()} className="bg-gray-800">
+              <div
+                style={getImageContainerStyle()}
+                className="bg-gray-800 relative"
+              >
                 <AnimatePresence initial={false} custom={direction} mode="wait">
                   <motion.img
                     key={currentProject.id}
@@ -190,6 +193,22 @@ const Portfolio = () => {
                     }}
                   />
                 </AnimatePresence>
+
+                {/* Clickable overlay */}
+                <a
+                  href={currentProject.liveLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="absolute top-0 left-0 w-full h-full z-10 cursor-pointer group"
+                  aria-label={`View live demo of ${currentProject.title}`}
+                >
+                  <div className="absolute top-0 left-0 w-full h-full opacity-0 bg-green-500 hover:opacity-20 group-hover:opacity-20 transition-opacity duration-300 flex items-center justify-center">
+                    <span className="text-white text-lg font-bold bg-gray-900/80 px-4 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      View Demo
+                    </span>
+                  </div>
+                </a>
+
                 {/* Loading skeleton */}
                 {!imagesLoaded && (
                   <div className="absolute inset-0 bg-gray-800 animate-pulse"></div>
