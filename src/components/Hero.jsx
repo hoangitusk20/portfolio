@@ -45,7 +45,7 @@ const Hero = () => {
                 <span className="block">{personalInfo.lastName}</span>
               </h1>
               <p className="text-xl">
-                I'm a{" "}
+                I'm an{" "}
                 <span className="text-green-500 font-medium">
                   {personalInfo.title}
                 </span>
