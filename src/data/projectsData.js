@@ -3,7 +3,7 @@ export const projectsData = [
     id: 1,
     title: "Ecommerce Website",
     description:
-      "A responsive clothing e-commerce website with a modern UI design. Guests can browse products, apply filters, and add items to the cart. Registered users can purchase items and pay via PayPal. Admins can manage users and products (add, edit, delete).",
+      "A responsive clothing e-commerce website with a modern UI design. Guests can browse products, apply filters, and add items to the cart. Registered users can purchase items and pay via PayPal. Admins can manage users and products (add, edit, delete). Now featuring an AI RAG chatbot to assist customers with inquiries, product recommendations, and order support.",
     image: "/project1.png",
     tags: [
       "HTML",
@@ -16,6 +16,9 @@ export const projectsData = [
       "MongoDB",
       "Paypal API",
       "Redux",
+      "AI",
+      "RAG",
+      "Chatbot",
     ],
     liveLink: "https://sky-shop-55u3.vercel.app/",
     githubLink: "https://github.com/hoangitusk20/skyShop",
