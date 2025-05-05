@@ -1,12 +1,24 @@
 import { motion } from "framer-motion";
 import { servicesData } from "../data/servicesData";
+import {
+  SiDotnet,
+  SiExpress,
+  SiGooglegemini,
+  SiKaggle,
+  SiScikitlearn,
+  SiTailwindcss,
+} from "react-icons/si";
+import { TbBrandCSharp } from "react-icons/tb";
+
+import { PiFileSqlDuotone } from "react-icons/pi";
 
 // Tool icons mapping
 const toolIcons = {
+  ".NET": <SiDotnet />,
   TensorFlow: <i className="fab fa-python mr-1"></i>,
   PyTorch: <i className="fas fa-fire mr-1"></i>,
-  Kaggle: <i className="fas fa-chart-line mr-1"></i>,
-  "Scikit-learn": <i className="fas fa-robot mr-1"></i>,
+  Kaggle: <SiKaggle />,
+  "Scikit-learn": <SiScikitlearn />,
   OpenCV: <i className="fas fa-eye mr-1"></i>,
   Keras: <i className="fas fa-brain mr-1"></i>,
   NLP: <i className="fas fa-comment-alt mr-1"></i>,
@@ -23,13 +35,15 @@ const toolIcons = {
   JavaScript: <i className="fab fa-js mr-1"></i>,
   TypeScript: <i className="fab fa-js-square mr-1"></i>,
   "Node.js": <i className="fab fa-node-js mr-1"></i>,
-  Express: <i className="fab fa-node mr-1"></i>,
+  Express: <SiExpress />,
   MongoDB: <i className="fas fa-database mr-1"></i>,
   Firebase: <i className="fas fa-fire mr-1"></i>,
-  "Tailwind CSS": <i className="fab fa-css3 mr-1"></i>,
+  "Tailwind CSS": <SiTailwindcss />,
   Bootstrap: <i className="fab fa-bootstrap mr-1"></i>,
   "Responsive Design": <i className="fas fa-mobile-alt mr-1"></i>,
-  "API Integration": <i className="fas fa-plug mr-1"></i>,
+  "Gemini API": <SiGooglegemini />,
+  "SQL Server": <PiFileSqlDuotone />,
+  "C#": <TbBrandCSharp />,
 };
 
 const ServiceItem = ({ title, description, icon, tools }) => {

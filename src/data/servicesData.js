@@ -18,6 +18,7 @@ export const servicesData = [
       "NumPy",
       "Machine Learning",
       "Deep Learning",
+      "Gemini API",
       // "GPT Integration",
     ],
   },
@@ -41,7 +42,9 @@ export const servicesData = [
       "Tailwind CSS",
       "Bootstrap",
       "Responsive Design",
-      "API Integration",
+      ".NET",
+      "SQL Server",
+      "C#",
     ],
   },
 ];
