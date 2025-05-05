@@ -17,7 +17,7 @@ export const projectsData = [
       ".NET",
       "RestfulAPI",
     ],
-    liveLink: "https://sky-shop-55u3.vercel.app/",
+    liveLink: "https://www.youtube.com/watch?v=uzL--6M2NwE",
     githubLink: "https://github.com/hoangitusk20/ChineseELearning",
   },
   {
